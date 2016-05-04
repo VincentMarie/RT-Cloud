@@ -10,6 +10,8 @@ class MyDisques extends Controller{
 	}
 	public function index() {
 		echo Jquery::compile();
+		$user = Auth::getUser();
+		$this -> loadView("essai/vmydisc.html", array("user"=>$user));
 	}
 
 	public function finalize(){
