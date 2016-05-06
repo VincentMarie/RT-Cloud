@@ -1,116 +1,172 @@
-	<div class="filemanager">
-		<div class="breadcrumbs"></div>
-		<ul class="nav nav-tabs" id="tabsMenu">
-		  <li role="presentation" class="active"><a href="#Home" aria-controls="Home" role="tab" data-toggle="tab">Home</a></li>
-		  <li role="presentation"><a href="#Listing" aria-controls="Listing" role="tab" data-toggle="tab">Listing</a></li>
-		  <li role="presentation"><a href="#Upload" aria-controls="Upload" role="tab" data-toggle="tab">Upload</a></li>
-		</ul>
-		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane active" id="Home">
-				<div class="panel-body">
-					<div class="list-group-item">
-						Caractéristique du disque
-					</div>
-					<div class="list-group-item">
-						<b>Nom :</b>
-					</div>
-					<div class="list-group-item">
-						<b>Propriétaire :</b>
-						<php ?> echo(getLogin()) </php>
-					</div>
-					<div class="list-group-item">
-						<h3><b>Occupation</b></h3>
-					</div>
-					<div class="list-group-item">
-						<h3><b>Tarification</b></h3>
-					</div>
-					<div class="list-group-item">
-						<h4>Services</h4>
-					</div>
-				</div>
-				<!--
-				//TODO 4.3 implémenter à partir de DisqueController/indexAction
-				-->
-			</div>
-			<div id="ajaxResponse"></div>
-			<div role="tabpanel" class="tab-pane" id="Listing">
-				<div class="btn-toolbar">
-					<div class="btn-group" role="group">
-						<a class="btn btn-primary" id="btUpload">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-							Ajouter des fichiers
-						</a>
-						<a class="btn btn-primary" id="btFrmCreateFolder">
-							<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
-							Créer un dossier
-						</a>
-					</div>
-					<div class="btn-group">
-						<label>
-							<input type="checkbox" id="ckSelectAll"/>&nbsp;(dé)Sélectionner tout
-						</label>
-					</div>
-					<div class="btn-group">
-						<input type="search" class="form-control" placeholder="Find a file.." />
-					</div>
-					<div class="btn-group" role="group">
-						<a class="btn btn-warning" id="btDelete" style="display:none">
-							<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-							Supprimer le(s) fichier(s)</a>
-					</div>
-				</div>
-				<div class="panel panel-default" id="panelCreateFolder" style="display:none">
-					<div class="panel-body">
-						<form class="form-inline" name="frmCreateFolder" id="frmCreateFolder">
-							<div class="form-group">
-								<input type="hidden" name="activeFolder" id="parentFolder">
-								<label>Nom : <input type="text" class="form-control" placeholder="nom du dossier..." name="folderName" id="folderName"/></label>
-								<a class="btn btn-primary" id="btCreateFolder">
-									<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
-									Créer le dossier
-								</a>
-							</div>
-						</form>
-					</div>
-				</div>
-				<div class="panel panel-default" id="panelConfirmDelete" style="display:none">
-					<div class="panel-body">
-						<form class="form-inline" name="frmDelete" id="frmDelete">
-							<div class="form-group">
-								<input type="hidden" name="activeFolder" id="parentFolder">
-								<label>Supprimer le(s) éléments ?</label>
-								<a class="btn btn-danger" id="btConfirmDelete">
-									<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-									Supprimer
-								</a>
-							</div>
-						</form>
-					</div>
-				</div>
-				<ul class="data"></ul>
+<div class="filemanager">
+	<ul class="nav nav-tabs" id="tabsMenu">
+		<li role="presentation" class="active"><a href="#Home" aria-controls="Home" role="tab" data-toggle="tab">Home</a></li>
+		<li role="presentation"><a href="#Listing" aria-controls="Listing" role="tab" data-toggle="tab">Listing</a></li>
+		<li role="presentation"><a href="#Upload" aria-controls="Upload" role="tab" data-toggle="tab">Upload</a></li>
+	</ul>
+	<div class="tab-content">
+		<div role="tabpanel" class="tab-pane active" id="Home">
+			<div class="list-group">
 
-				<div class="nothingfound">
-					<div class="nofiles"></div>
-					<span>Aucun élément.</span>
+				<li class="list-group-item" id="li">
+					<!-- Caractéristique du disque. -->
+					Caractéristique du disque
+				</li>
+
+				<style>
+					#li{
+						color: grey;
+						background-color: whitesmoke;
+					}
+				</style>
+
+				<li class="list-group-item">
+					<!-- Nom du disque. -->
+					<b>Nom : </b> {{nom_disque}}
+					<!--Mettre lien pour changer le nom du disque.-->
+
+				</li>
+
+				<li class="list-group-item">
+					<!-- Login du propriétaire. -->
+					<b>Propriétaire : </b> {{user}}
+				</li>
+
+				<li class="list-group-item">
+					<!-- Occupation. -->
+					<h4><b>Occupation </b></h4>
+					{{taille}} ({{occupation}}%) sur {{quota}}
+					</br>
+					<!--Indicateur-->
+
+					<!--Info : 0/10-->
+					{% if occupation <=10 %}
+					<span class="label label-info">Peu occupé</span>
+
+					<!--Success :10/50-->
+					{% elseif occupation >10 and occupation <=50 %}
+					<span class="label label-success">RAS</span>
+
+					<!--Warning : 50/80-->
+					{% elseif occupation >50 and occupation <= 80 %}
+					<span class="label label-warning">Forte occupation</span>
+
+					<!--Danger : 80/100-->
+					{% elseif occupation >80 and occupation <=100 %}
+					<span class="label label-danger">Proche saturation</span>
+
+					{% endif %}
+				</li>
+				<li class="list-group-item">
+					<!-- Tarification -->
+
+					<h4><b>Tarification</b></h4>
+
+					{% if tarif.getPrix()==0 %}
+					Prix de 0€ avec une marge de dépassement de 2% pour un coût de dépassement de 0€.
+
+					{% else %}
+					Prix de 5€ avec une marge de dépassement de 2% pour un coût de dépassement de 0.01€.
+
+					<!--Modifier la Tarification !!!!-->
+					{% endif %}
+				</li>
+
+				<li class="list-group-item">
+					<!-- Services -->
+
+					<b>Services :</b>
+					</br>
+					{% for services in disque.getServices() %}
+					<span class="label label-info">{{services.getNom()}}</span>
+					{% endfor %}
+				</li>
+
+				</ul>
+			</div>
+			<!--
+            //TODO 4.3 implémenter à partir de DisqueController/indexAction
+            -->
+		</div>
+		<div id="ajaxResponse"></div>
+		<div role="tabpanel" class="tab-pane" id="Listing">
+			<div class="btn-toolbar">
+				<div class="btn-group" role="group">
+					<a class="btn btn-primary" id="btUpload">
+						<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+						Ajouter des fichiers
+					</a>
+					<a class="btn btn-primary" id="btFrmCreateFolder">
+						<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+						Créer un dossier
+					</a>
+				</div>
+				<div class="btn-group">
+					<label>
+						<input type="checkbox" id="ckSelectAll"/>&nbsp;(dé)Sélectionner tout
+					</label>
+				</div>
+				<div class="btn-group">
+					<input type="search" class="form-control" placeholder="Find a file.." />
+				</div>
+				<div class="btn-group" role="group">
+					<a class="btn btn-warning" id="btDelete" style="display:none">
+						<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+						Supprimer le(s) fichier(s)</a>
 				</div>
 			</div>
-			<div role="tabpanel" class="tab-pane" id="Upload">
-				<form id="upload" method="post" action="scan/upload" enctype="multipart/form-data">
-					<div id="drop">
-						Déposez vos fichiers
-						<a class="btn btn-primary">Parcourir...</a>
-						<input type="file" name="upl" multiple />
-					</div>
-					<input type="hidden" name="activeFolder" id="activeFolder">
-					<ul>
-						<!-- The file uploads will be shown here -->
-					</ul>
-				</form>
+			<div class="panel panel-default" id="panelCreateFolder" style="display:none">
+				<div class="panel-body">
+					<form class="form-inline" name="frmCreateFolder" id="frmCreateFolder">
+						<div class="form-group">
+							<input type="hidden" name="activeFolder" id="parentFolder">
+							<label>Nom : <input type="text" class="form-control" placeholder="nom du dossier..." name="folderName" id="folderName"/></label>
+							<a class="btn btn-primary" id="btCreateFolder">
+								<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+								Créer le dossier
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+			<div class="panel panel-default" id="panelConfirmDelete" style="display:none">
+				<div class="panel-body">
+					<form class="form-inline" name="frmDelete" id="frmDelete">
+						<div class="form-group">
+							<input type="hidden" name="activeFolder" id="parentFolder">
+							<label>Supprimer le(s) éléments ?</label>
+							<a class="btn btn-danger" id="btConfirmDelete">
+								<span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+								Supprimer
+							</a>
+						</div>
+					</form>
+				</div>
+			</div>
+			<ul class="data"></ul>
+
+			<div class="nothingfound">
+				<div class="nofiles"></div>
+				<span>Aucun élément.</span>
 			</div>
 		</div>
+		<div role="tabpanel" class="tab-pane" id="Upload">
+			<form id="upload" method="post" action="scan/upload" enctype="multipart/form-data">
+				<div id="drop">
+					Déposez vos fichiers
+					<a class="btn btn-primary">Parcourir...</a>
+					<input type="file" name="upl" multiple />
+				</div>
+				<input type="hidden" name="activeFolder" id="activeFolder">
+				<ul>
+					<!-- The file uploads will be shown here -->
+				</ul>
+			</form>
+		</div>
 	</div>
-	<input type="hidden" name="rootFolder" id="rootFolder">
-	
+</div>
+<input type="hidden" name="rootFolder" id="rootFolder">
+
 <script src="assets/js/jquery-file-upload/jquery.knob.js"></script>
 <!-- jQuery File Upload Dependencies -->
 <script src="assets/js/jquery-file-upload/jquery.ui.widget.js"></script>
@@ -118,3 +174,10 @@
 <script src="assets/js/jquery-file-upload/jquery.fileupload.js"></script>
 
 <script src="assets/js/jquery-file-upload/script.js"></script>
+
+<a href="Disques/index">
+	<button type="button" class="btn btn-block btn-primary">
+		<span class="glyphicon glyphicon-folder-close" aria-hidden="true"></span>
+		Fermer et retourner à <b>Mes disques</b>
+	</button>
+</a>
