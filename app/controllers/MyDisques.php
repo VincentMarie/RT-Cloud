@@ -11,7 +11,7 @@ class MyDisques extends Controller{
 	public function index() {
 		echo Jquery::compile();
 		$user = Auth::getUser();
-		$this -> loadView("essais/vmydisc.html", array("user"=>$user)); 
+		$this -> loadView("Disques/vmydisc.html", array("user"=>$user)); 
 	}
 
 	public function finalize(){
