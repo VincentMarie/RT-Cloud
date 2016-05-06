@@ -13,7 +13,7 @@ class Users extends \_DefaultController {
 		$this->model="user";
 	}
 
-	public function frm($id=NULL){
+	public function form($id=NULL){
 		$user=$this->getInstance($id);
 		$disabled="";
 		$this->loadView("user/vAdd.html",array("user"=>$user,"disabled"=>$disabled));
