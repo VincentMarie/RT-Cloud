@@ -28,7 +28,7 @@ class Scan extends BaseController {
 
 		$this->loadView("scan/vFolder.html", array("idDisque"=>$idDisque, "user"=>$user, "nom_disque"=>$diskName, "taille"=>$size,
 			"occupation"=>$occupation, "quota"=>$quota, "tarif"=>$tarif,#"services"=>$services
-		));
+        ));
 
 		Jquery::executeOn("#ckSelectAll", "click","$('.toDelete').prop('checked', $(this).prop('checked'));$('#btDelete').toggle($('.toDelete:checked').length>0)");
 		Jquery::executeOn("#btUpload", "click", "$('#tabsMenu a:last').tab('show');");
