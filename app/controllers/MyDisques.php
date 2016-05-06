@@ -10,8 +10,15 @@ class MyDisques extends Controller{
 	}
 	public function index() {
 		echo Jquery::compile();
-		$user = Auth::getUser();
-		$this -> loadView("Disques/vmydisc.html", array("user"=>$user)); 
+		if (Auth::isAuth()==True) {
+			$users = Auth::getUser();
+			$disque = micro\orm\DAO::getOneToMany($users, "disques");
+			$this->loadView("Disques/vmydisc.html", array("users"=>$users, "disque"=>$disque));
+			}
+		else {
+			echo "Vous devez vous connecter.";
+		}
+		$this -> loadView("Disques/vmydisc.html", array("user"=>$user));
 	}
 
 	public function finalize(){
@@ -21,3 +28,4 @@ class MyDisques extends Controller{
 	}
 
 }
+?>

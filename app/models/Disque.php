@@ -28,6 +28,15 @@ class Disque extends Base{
 		return $this;
 	}
 
+	public function getServices() {
+		return $this->services;
+}
+
+public function setServices($services) {
+	$this->services=$services;
+	return $this;
+}
+
 	public function getNom() {
 		return $this->nom;
 	}

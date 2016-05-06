@@ -9,8 +9,8 @@ class Users extends \_DefaultController {
 
 	public function __construct(){
 		parent::__construct();
-		$this->title="Utilisateurs";
-		$this->model="Utilisateur";
+		$this->title="users";
+		$this->model="user";
 	}
 
 	public function frm($id=NULL){
