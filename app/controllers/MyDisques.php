@@ -18,7 +18,7 @@ class MyDisques extends Controller{
 		else {
 			echo "Vous devez vous connecter.";
 		}
-		$this -> loadView("Disques/vmydisc.html", array("user"=>$user));
+		
 	}
 
 	public function finalize(){
