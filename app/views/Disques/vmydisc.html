@@ -10,7 +10,6 @@
                 {% for disque in users.getDisques() %}
                 <li class="list-group-item">
                     <span class="glyphicon glyphicon-hdd"></span> <b>{{disque.getNom()}}</b>
-                    {{disque.getSize()}}/{{disque.getQuota()}}
                     <br>
                     <br>
                     {% if disque.getOccupation()<=10 %}
@@ -18,6 +17,7 @@
                         <div class="progress-bar progress-bar-info progress-bar-striped active" role="progressbar" aria-valuenow="{{disque.getOccupation()}}"
                              aria-valuemin="0" aria-valuemax="100" style="width:{{disque.getOccupation()}}%" >
                             {{disque.getOccupation()}}%
+
                         </div>
                     </div>
 
