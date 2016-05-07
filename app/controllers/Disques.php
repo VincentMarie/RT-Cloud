@@ -7,10 +7,10 @@ class Disques extends \_DefaultController {
 		$this->model="Disque";
 	}
 
-	public function form($id=NULL){
+	public function frm($id=NULL){
 		$disque=$this->getInstance($id);
 		$disabled="";
-		$this->loadView("views/Disques/form.html",array("disque"=>$disque,"disabled"=>$disabled));
+		$this->loadView("Disques/frm.html",array("disque"=>$disque,"disabled"=>$disabled));
 		}
 
 	/* (non-PHPdoc)
