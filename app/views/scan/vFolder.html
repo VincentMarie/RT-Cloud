@@ -1,4 +1,5 @@
 <div class="filemanager">
+	<div class="breadcrumbs"></div>
 	<ul class="nav nav-tabs" id="tabsMenu">
 		<li role="presentation" class="active"><a href="#Home" aria-controls="Home" role="tab" data-toggle="tab">Home</a></li>
 		<li role="presentation"><a href="#Listing" aria-controls="Listing" role="tab" data-toggle="tab">Listing</a></li>
@@ -24,7 +25,16 @@
 					<!-- Nom du disque. -->
 					<b>Nom : </b> {{nom_disque}}
 					<!--Mettre lien pour changer le nom du disque.-->
-
+					<a href="Disques/frm/{{idDisque}}">
+						<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-edit" id="modif"></span> Modifier...
+							<style>
+								#modif{
+									color: #000000;
+								}
+							</style>
+						</button>
+					</a>
 				</li>
 
 				<li class="list-group-item">
@@ -62,14 +72,19 @@
 
 					<h4><b>Tarification</b></h4>
 
-					{% if tarif.getPrix()==0 %}
-					Prix de 0€ avec une marge de dépassement de 2% pour un coût de dépassement de 0€.
+					{{tarif.getQuota()}} {{tarif.getUnite()}} pour {{tarif.getPrix()}}€ avec marge de dépassement de
+					{{tarif.getMargeDepassement() * 100}}% (Coût de dépassement {{tarif.getCoutDepassement()}}€ / {{tarif.getUnite()}})
 
-					{% else %}
-					Prix de 5€ avec une marge de dépassement de 2% pour un coût de dépassement de 0.01€.
+					<br>
 
 					<!--Modifier la Tarification !!!!-->
-					{% endif %}
+
+					<a href="Scan/show/{{idDisque}}/changeTarif">
+						<button type="button" class="btn btn-default">
+							<span class="glyphicon glyphicon-edit" id="modif"></span>
+							Modifier la tarification...
+						</button>
+					</a>
 				</li>
 
 				<li class="list-group-item">
@@ -77,16 +92,14 @@
 
 					<b>Services :</b>
 					</br>
-					{% for services in disque.getServices() %}
-					<span class="label label-info">{{services.getNom()}}</span>
+					<!--{% for service in services %}-->
+					<span class="label label-info">{{service.getNom()}}</span>
 					{% endfor %}
+
 				</li>
 
 				</ul>
 			</div>
-			<!--
-            //TODO 4.3 implémenter à partir de DisqueController/indexAction
-            -->
 		</div>
 		<div id="ajaxResponse"></div>
 		<div role="tabpanel" class="tab-pane" id="Listing">
